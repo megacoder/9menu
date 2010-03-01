@@ -5,19 +5,21 @@ SUBDIRS	=
 
 .PHONY:	${TARGETS} ${SUBDIRS}
 
-PREFIX	=/opt
+PREFIX	=/opt/9menu
 BINDIR	=${PREFIX}/bin
+MANDIR	=${PREFIX}/share/man/man1
 
 INSTALL	=install
 
 CC	=ccache gcc -march=native --std=gnu99
 CFLAGS	=-g -Os -D_FORTIFY_SOURCE=2
 LDFLAGS	=-g
-LDLIBS	=-lx11
+LDLIBS	=-lX11
 
 FILES	=9menu
+MANFILES=9menu.1
 
-all::	${FILES}
+all::	${FILES} ${MANFILES}
 
 ${TARGETS}::
 
@@ -38,6 +40,15 @@ endef
 
 $(foreach f,${FILES},$(eval $(call INSTALL_template,${f})))
 
+define	INSTALL_MAN_template
+.PHONY: install-${1}
+install-${1}: ${1}
+	@cmp -s $${MANDIR}/${1} ${1} || $${SHELL} -xc "${INSTALL} -Dc -m 0644 ${1} $${MANDIR}/${1}"
+install:: install-${1}
+endef
+
+$(foreach f,${MANFILES},$(eval $(call INSTALL_MAN_template,${f})))
+
 define	UNINSTALL_template
 .PHONY: uninstall-${1}
 uninstall-${1}: ${1}
@@ -46,6 +57,15 @@ uninstall:: uninstall-${1}
 endef
 
 $(foreach f,${FILES},$(eval $(call UNINSTALL_template,${f})))
+
+define	UNINSTALL_MAN_template
+.PHONY: uninstall-${1}
+uninstall-${1}: ${1}
+	${RM} $${MANDIR}/${1}
+uninstall:: uninstall-${1}
+endef
+
+$(foreach f,${MANFILES},$(eval $(call UNINSTALL_template,${f})))
 
 # Keep at bottom so we do local stuff first.
 

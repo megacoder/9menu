@@ -204,7 +204,9 @@ char **argv;
 			s = getenv("PATH");
 			if (s != NULL) {
 				/* append current dir to PATH */
-				getcwd(pathbuf, MAXPATHLEN);
+				if( !getcwd(pathbuf, MAXPATHLEN) )	{
+					exit( 1 );
+				}
 				t = malloc(strlen(s) + strlen(pathbuf) + 7);
 				sprintf(t, "PATH=%s:%s", pathbuf, s);
 				putenv(t);
@@ -566,7 +568,7 @@ run_menu()
 				XFillRectangle(dpy, menuwin, gc, 0, cur*high, wide, high);
 			break;
 		case KeyPress:
-			key = XKeycodeToKeysym(dpy, ev.xkey.keycode, 0);	
+			key = XKeycodeToKeysym(dpy, ev.xkey.keycode, 0);
 			if (key != CONFIG_MENU_UP_KEY
 			    && key != CONFIG_MENU_DOWN_KEY
 			    && key != CONFIG_MENU_SELECT_KEY)
@@ -579,10 +581,10 @@ run_menu()
 				old = cur;
 				cur++;
 			}
-			
+
 			while (cur < 0)
 				cur += numitems;
-		
+
 			cur %= numitems;
 
 			if (key == CONFIG_MENU_UP_KEY || key == CONFIG_MENU_DOWN_KEY) {
