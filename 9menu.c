@@ -46,9 +46,9 @@
  * June, 2004
  */
 
-#include <stdio.h>
+#	include <stdio.h>
 #include <fcntl.h>
-#include <signal.h>
+#	include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
