@@ -46,22 +46,22 @@
  * June, 2004
  */
 
-#	include <stdio.h>
-#include <fcntl.h>
-#	include <signal.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/param.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <X11/X.h>
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
 #include <X11/Xutil.h>
-#include <X11/keysymdef.h>
 #include <X11/keysym.h>
+#include <X11/keysymdef.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/param.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 char version[] = "@(#) 9menu version 1.8";
 
@@ -166,7 +166,7 @@ int argc;
 char **argv;
 {
 	int i;
-	if (argc == 0 || argv == NULL || argv[0] == '\0')
+	if (argc == 0 || argv == NULL || argv[0] == NULL)
 		return -1;
 	for (i = 0; i < argc && argv[i] != NULL; i++) {
 		if (strcmp(argv[i], "-display") == 0) {
