@@ -11,7 +11,7 @@ MANDIR	=${PREFIX}/share/man/man1
 
 INSTALL	=install
 
-CC	=ccache gcc -march=native --std=gnu99
+CC	=gcc -march=native --std=gnu99
 CFLAGS	=-g -Os -D_FORTIFY_SOURCE=2
 LDFLAGS	=-g
 LDLIBS	=-lX11
